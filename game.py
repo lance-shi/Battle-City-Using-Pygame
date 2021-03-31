@@ -1,55 +1,47 @@
 import pygame
+import settings
 from bullet import *
+from tank import *     
 
 class Game:
-	(DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT) = range(4)
-
 	def __init__(self):
-		size = self.width, self.height = 480, 416
-
-		self.screen = pygame.display.set_mode(size)
-		pygame.display.set_caption("Battle City")
-		self.clock = pygame.time.Clock()
-		self.sprites = pygame.transform.scale(pygame.image.load("images/sprites.gif"), [192, 224])
-		
-		self.player = self.sprites.subsurface(0, 0, 13*2, 13*2)
-		pygame.display.set_icon(self.player)
-		self.bullets = []
+		self.player = settings.sprites.subsurface(0, 0, 13*2, 13*2)
 		self.mainLoop()
 
 	def mainLoop(self):
 		run = True
-		playerRect = pygame.Rect(100, 300, 13*2, 13*2)
-		tankSpeed = 2
+		clock = pygame.time.Clock()
+		playerTank = Tank(100, 300)
+		settings.players.append(playerTank)
 		while run:
-			self.clock.tick(60)
+			clock.tick(60)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					run = False
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_SPACE:
-						newBullet = Bullet(self.screen, self.sprites, playerRect.x, playerRect.y, self.DIR_UP)
-						self.bullets.append(newBullet)
+						playerTank.fire()
 
-			for bullet in self.bullets:
+			for bullet in settings.bullets:
 				bullet.update()
 
 			keys_pressed = pygame.key.get_pressed()
-			if keys_pressed[pygame.K_a] and playerRect.x - tankSpeed > 0:
-				playerRect.x -= tankSpeed
-			if keys_pressed[pygame.K_s] and playerRect.y + playerRect.height + tankSpeed < self.height:
-				playerRect.y += tankSpeed
-			if keys_pressed[pygame.K_d] and playerRect.x + playerRect.width + tankSpeed < self.width:
-				playerRect.x += tankSpeed
-			if keys_pressed[pygame.K_w] and playerRect.y - tankSpeed > 0:
-				playerRect.y -= tankSpeed
-			self.draw(playerRect)
-				
+			if keys_pressed[pygame.K_a]:
+				playerTank.move(settings.DIR_LEFT)
+			if keys_pressed[pygame.K_s]:
+				playerTank.move(settings.DIR_DOWN)
+			if keys_pressed[pygame.K_d]:
+				playerTank.move(settings.DIR_RIGHT)
+			if keys_pressed[pygame.K_w]:
+				playerTank.move(settings.DIR_UP)
+			
+			self.draw()
 		pygame.quit()
 
-	def draw(self, playerRect):
-		self.screen.fill([0, 0, 0])
-		self.screen.blit(self.player, playerRect.topleft)
-		for bullet in self.bullets:
+	def draw(self):
+		settings.screen.fill([0, 0, 0])
+		for tank in settings.players:
+			tank.draw()
+		for bullet in settings.bullets:
 			bullet.draw()
 		pygame.display.update()
