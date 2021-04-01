@@ -6,19 +6,19 @@ from bullet import *
 class Tank:
 	MAX_LENGTH = 416
 
-	def __init__(self, x, y, direction=None, speed=2, imagePos=None):
+	def __init__(self, x, y, type = 0, direction=None, speed=2):
 		self.direction = direction if direction != None else settings.DIR_UP
 		self.speed = speed
 		self.rect = pygame.Rect(x, y, 26, 26)
+		self.type = type
 
-		if imagePos == None:
-			imagePos = (0, 0, 13*2, 13*2)
-
-		self.image = settings.sprites.subsurface(imagePos)
+		self.image = settings.sprites.subsurface(settings.tankImages[self.side][self.type])
 		self.image_up = self.image;
 		self.image_left = pygame.transform.rotate(self.image, 90)
 		self.image_down = pygame.transform.rotate(self.image, 180)
 		self.image_right = pygame.transform.rotate(self.image, 270)
+
+		self.rotate(self.direction, False)
 
 	def move(self, direction):
 		if self.direction != direction:

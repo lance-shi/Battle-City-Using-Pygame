@@ -1,18 +1,21 @@
 import pygame
 import settings
 from bullet import *
-from tank import *     
+from tank import *
+from player import *
+from enemy import *
 
 class Game:
 	def __init__(self):
-		self.player = settings.sprites.subsurface(0, 0, 13*2, 13*2)
 		self.mainLoop()
 
 	def mainLoop(self):
 		run = True
 		clock = pygame.time.Clock()
-		playerTank = Tank(100, 300)
+		playerTank = Player(100, 300)
+		enemyTank = Enemy(0, 0)
 		settings.players.append(playerTank)
+		settings.enemies.append(enemyTank)
 		while run:
 			clock.tick(60)
 			for event in pygame.event.get():
@@ -40,8 +43,10 @@ class Game:
 
 	def draw(self):
 		settings.screen.fill([0, 0, 0])
-		for tank in settings.players:
-			tank.draw()
+		for player in settings.players:
+			player.draw()
+		for enemy in settings.enemies:
+			enemy.draw()
 		for bullet in settings.bullets:
 			bullet.draw()
 		pygame.display.update()

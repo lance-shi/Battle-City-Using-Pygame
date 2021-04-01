@@ -1,10 +1,13 @@
 import pygame
 
 def init():
-	global screen, sprites, bullets, players
+	global screen, sprites, bullets, players, enemies
 	global DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT
+	global SIDE_PLAYER, SIDE_ENEMY
+	global tankImages
 
 	(DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT) = range(4)
+	(SIDE_PLAYER, SIDE_ENEMY) = range(2)
 	size = width, height = 480, 416
 	screen = pygame.display.set_mode(size)
 	pygame.display.set_caption("Battle City")
@@ -13,3 +16,20 @@ def init():
 	pygame.display.set_icon(player)
 	bullets = []
 	players = []
+	enemies = []
+
+	playerImages = [
+		(0, 0, 13*2, 13*2),
+		(16*2, 0, 13*2, 13*2)
+	]
+	enemyImages = [
+		(32*2, 0, 13*2, 15*2),
+		(48*2, 0, 13*2, 15*2),
+		(64*2, 0, 13*2, 15*2),
+		(80*2, 0, 13*2, 15*2),
+		(32*2, 16*2, 13*2, 15*2),
+		(48*2, 16*2, 13*2, 15*2),
+		(64*2, 16*2, 13*2, 15*2),
+		(80*2, 16*2, 13*2, 15*2)
+	]
+	tankImages = [playerImages, enemyImages]
