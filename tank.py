@@ -2,14 +2,15 @@ import pygame
 import settings
 
 from bullet import *
+from level import *
 
 class Tank:
 	MAX_LENGTH = 416
 
-	def __init__(self, x, y, type = 0, direction=None, speed=2):
+	def __init__(self, level, position, type = 0, direction=None, speed=2):
 		self.direction = direction if direction != None else settings.DIR_UP
 		self.speed = speed
-		self.rect = pygame.Rect(x, y, 26, 26)
+		self.rect = pygame.Rect(position, (26, 26))
 		self.type = type
 
 		self.image = settings.sprites.subsurface(settings.tankImages[self.side][self.type])
@@ -73,8 +74,15 @@ class Tank:
 		""" Round number to nearest divisible """
 		return int(round(num / (base * 1.0)) * base)
 
+	def turnAround(self):
+		""" Turn tank into opposite direction """
+		if self.direction in (self.DIR_UP, self.DIR_RIGHT):
+			self.rotate(self.direction + 2, False)
+		else:
+			self.rotate(self.direction - 2, False)
+
 	def fire(self):
-		newBullet = Bullet(self.rect.left, self.rect.top, self.direction)
+		newBullet = Bullet(self.rect.left, self.rect.top, self.direction, self.side)
 		settings.bullets.append(newBullet)
 
 	def draw(self):

@@ -1,13 +1,15 @@
 import pygame
+from timer import Timer
 
 def init():
-	global screen, sprites, bullets, players, enemies
+	global screen, sprites, bullets, players, enemies, gtimer
 	global DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT
-	global SIDE_PLAYER, SIDE_ENEMY
+	global SIDE_PLAYER, SIDE_ENEMY, TILE_SIZE
 	global tankImages
 
 	(DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT) = range(4)
 	(SIDE_PLAYER, SIDE_ENEMY) = range(2)
+	TILE_SIZE = 16
 	size = width, height = 480, 416
 	screen = pygame.display.set_mode(size)
 	pygame.display.set_caption("Battle City")
@@ -17,6 +19,7 @@ def init():
 	bullets = []
 	players = []
 	enemies = []
+	gtimer = Timer()
 
 	playerImages = [
 		(0, 0, 13*2, 13*2),

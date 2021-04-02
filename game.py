@@ -12,12 +12,12 @@ class Game:
 	def mainLoop(self):
 		run = True
 		clock = pygame.time.Clock()
-		playerTank = Player(100, 300)
-		enemyTank = Enemy(0, 0)
+		playerTank = Player(None, (100, 300))
+		self.maxEnemies = 4
 		settings.players.append(playerTank)
-		settings.enemies.append(enemyTank)
+		self.createEnemy()
 		while run:
-			clock.tick(60)
+			timePassed = clock.tick(60)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					run = False
@@ -38,8 +38,16 @@ class Game:
 			if keys_pressed[pygame.K_w]:
 				playerTank.move(settings.DIR_UP)
 			
+			settings.gtimer.update(timePassed)
 			self.draw()
 		pygame.quit()
+
+	def createEnemy(self):
+		if len(settings.enemies) >= self.maxEnemies:
+			return
+
+		enemy = Enemy(None)
+		settings.enemies.append(enemy)
 
 	def draw(self):
 		settings.screen.fill([0, 0, 0])
