@@ -21,31 +21,6 @@ class Tank:
 
 		self.rotate(self.direction, False)
 
-	def move(self, direction):
-		if self.direction != direction:
-			self.rotate(direction)
-
-		if direction == settings.DIR_UP:
-			newPosition = [self.rect.left, self.rect.top - self.speed]
-			if newPosition[1] < 0:
-				return
-		elif direction == settings.DIR_RIGHT:
-			newPosition = [self.rect.left + self.speed, self.rect.top]
-			if newPosition[0] > (416 - 26):
-				return
-		elif direction == settings.DIR_DOWN:
-			newPosition = [self.rect.left, self.rect.top + self.speed]
-			if newPosition[1] > (416 - 26):
-				return
-		elif direction == settings.DIR_LEFT:
-			newPosition = [self.rect.left - self.speed, self.rect.top]
-			if newPosition[0] < 0:
-				return
-
-		playerRect = pygame.Rect(newPosition, [26, 26])
-
-		self.rect.topleft = (newPosition[0], newPosition[1])
-
 	def rotate(self, direction, fixPosition = True):
 		""" Rotate tank
 		rotate, update image and correct position
