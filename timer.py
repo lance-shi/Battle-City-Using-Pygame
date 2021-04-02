@@ -23,9 +23,9 @@ class Timer:
 				self.timers.remove(timer)
 				return
 
-	def update(self, time_passed):
+	def update(self, timePassed):
 		for timer in self.timers:
-			timer["time"] += time_passed
+			timer["time"] += timePassed
 			if timer["time"] > timer["interval"]:
 				timer["time"] -= timer["interval"]
 				timer["times"] += 1

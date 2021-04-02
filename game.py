@@ -18,15 +18,13 @@ class Game:
 		self.createEnemy()
 		while run:
 			timePassed = clock.tick(60)
+			self.update()
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					run = False
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_SPACE:
 						playerTank.fire()
-
-			for bullet in settings.bullets:
-				bullet.update()
 
 			keys_pressed = pygame.key.get_pressed()
 			if keys_pressed[pygame.K_a]:
@@ -49,6 +47,12 @@ class Game:
 		enemy = Enemy(None)
 		settings.enemies.append(enemy)
 
+	def update(self):
+		for bullet in settings.bullets:
+			bullet.update()
+		for enemy in settings.enemies:
+			enemy.update()
+			
 	def draw(self):
 		settings.screen.fill([0, 0, 0])
 		for player in settings.players:

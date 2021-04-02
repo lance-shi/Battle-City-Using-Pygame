@@ -14,10 +14,10 @@ class Tank:
 		self.type = type
 
 		self.image = settings.sprites.subsurface(settings.tankImages[self.side][self.type])
-		self.image_up = self.image;
-		self.image_left = pygame.transform.rotate(self.image, 90)
-		self.image_down = pygame.transform.rotate(self.image, 180)
-		self.image_right = pygame.transform.rotate(self.image, 270)
+		self.imageUp = self.image;
+		self.imageLeft = pygame.transform.rotate(self.image, 90)
+		self.imageDown = pygame.transform.rotate(self.image, 180)
+		self.imageRight = pygame.transform.rotate(self.image, 270)
 
 		self.rotate(self.direction, False)
 
@@ -26,41 +26,42 @@ class Tank:
 			self.rotate(direction)
 
 		if direction == settings.DIR_UP:
-			new_position = [self.rect.left, self.rect.top - self.speed]
-			if new_position[1] < 0:
+			newPosition = [self.rect.left, self.rect.top - self.speed]
+			if newPosition[1] < 0:
 				return
 		elif direction == settings.DIR_RIGHT:
-			new_position = [self.rect.left + self.speed, self.rect.top]
-			if new_position[0] > (416 - 26):
+			newPosition = [self.rect.left + self.speed, self.rect.top]
+			if newPosition[0] > (416 - 26):
 				return
 		elif direction == settings.DIR_DOWN:
-			new_position = [self.rect.left, self.rect.top + self.speed]
-			if new_position[1] > (416 - 26):
+			newPosition = [self.rect.left, self.rect.top + self.speed]
+			if newPosition[1] > (416 - 26):
 				return
 		elif direction == settings.DIR_LEFT:
-			new_position = [self.rect.left - self.speed, self.rect.top]
-			if new_position[0] < 0:
+			newPosition = [self.rect.left - self.speed, self.rect.top]
+			if newPosition[0] < 0:
 				return
 
-		player_rect = pygame.Rect(new_position, [26, 26])
-		self.rect.topleft = (new_position[0], new_position[1])
+		playerRect = pygame.Rect(newPosition, [26, 26])
 
-	def rotate(self, direction, fix_position = True):
+		self.rect.topleft = (newPosition[0], newPosition[1])
+
+	def rotate(self, direction, fixPosition = True):
 		""" Rotate tank
 		rotate, update image and correct position
 		"""
 		self.direction = direction
 
 		if direction == settings.DIR_UP:
-			self.image = self.image_up
+			self.image = self.imageUp
 		elif direction == settings.DIR_RIGHT:
-			self.image = self.image_right
+			self.image = self.imageRight
 		elif direction == settings.DIR_DOWN:
-			self.image = self.image_down
+			self.image = self.imageDown
 		elif direction == settings.DIR_LEFT:
-			self.image = self.image_left
+			self.image = self.imageLeft
 
-		if fix_position:
+		if fixPosition:
 			new_x = self.nearest(self.rect.left, 8) + 3
 			new_y = self.nearest(self.rect.top, 8) + 3
 
@@ -76,7 +77,7 @@ class Tank:
 
 	def turnAround(self):
 		""" Turn tank into opposite direction """
-		if self.direction in (self.DIR_UP, self.DIR_RIGHT):
+		if self.direction in (settings.DIR_UP, settings.DIR_RIGHT):
 			self.rotate(self.direction + 2, False)
 		else:
 			self.rotate(self.direction - 2, False)
