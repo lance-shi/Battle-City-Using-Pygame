@@ -2,7 +2,7 @@ import pygame
 from timer import Timer
 
 def init():
-	global screen, sprites, bullets, players, enemies, gtimer
+	global screen, sprites, bullets, players, enemies, gtimer, sounds
 	global DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT
 	global SIDE_PLAYER, SIDE_ENEMY, TILE_SIZE
 	global tankImages
@@ -19,6 +19,7 @@ def init():
 	bullets = []
 	players = []
 	enemies = []
+	sounds = {}
 	gtimer = Timer()
 
 	playerImages = [
@@ -36,3 +37,14 @@ def init():
 		(80*2, 16*2, 13*2, 15*2)
 	]
 	tankImages = [playerImages, enemyImages]
+
+	pygame.mixer.init(44100, -16, 1, 512)
+	sounds["start"] = pygame.mixer.Sound("sounds/gamestart.ogg")
+	sounds["end"] = pygame.mixer.Sound("sounds/gameover.ogg")
+	sounds["score"] = pygame.mixer.Sound("sounds/score.ogg")
+	sounds["bg"] = pygame.mixer.Sound("sounds/background.ogg")
+	sounds["fire"] = pygame.mixer.Sound("sounds/fire.ogg")
+	sounds["bonus"] = pygame.mixer.Sound("sounds/bonus.ogg")
+	sounds["explosion"] = pygame.mixer.Sound("sounds/explosion.ogg")
+	sounds["brick"] = pygame.mixer.Sound("sounds/brick.ogg")
+	sounds["steel"] = pygame.mixer.Sound("sounds/steel.ogg")

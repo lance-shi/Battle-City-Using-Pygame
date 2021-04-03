@@ -24,6 +24,7 @@ class Game:
 					run = False
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_SPACE:
+						settings.sounds["fire"].play()
 						playerTank.fire()
 
 			keys_pressed = pygame.key.get_pressed()
