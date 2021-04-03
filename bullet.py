@@ -2,12 +2,13 @@ import pygame
 import settings
 
 class Bullet:
-	def __init__(self, x, y, direction, side=None, speed=5):
+	def __init__(self, x, y, direction, side=None, damage=100, speed=5):
 		self.direction = direction
 		if side == None:
 			side = settings.SIDE_PLAYER
 		self.side = side
 		self.speed = speed
+		self.playerNumber = 0
 		self.image = settings.sprites.subsurface(75*2, 74*2, 3*2, 4*2)
 		position = [x, y]
 

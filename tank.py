@@ -59,7 +59,13 @@ class Tank:
 
 	def fire(self):
 		newBullet = Bullet(self.rect.left, self.rect.top, self.direction, self.side)
+		newBullet.playerNumber = self.type
 		settings.bullets.append(newBullet)
 
 	def draw(self):
 		settings.screen.blit(self.image, self.rect.topleft)
+
+	def bulletImpact(self, friendlyFire=False, damage=100, playerNumber=0):
+		pass
+
+	

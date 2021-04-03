@@ -16,10 +16,11 @@ class Enemy(Tank):
 		self.timer_uuid_fire = settings.gtimer.add(1000, lambda :self.fire())
 
 	def move(self):
-		if self.path == []:
+		try: 
+			newPosition = next(self.path)
+		except StopIteration:
 			self.path = self.generatePath(False, True)
-
-		newPosition = self.path.pop(0)
+			newPosition = next(self.path)
 
 		if self.direction == settings.DIR_UP:
 			if newPosition[1] < 0:
@@ -133,4 +134,4 @@ class Enemy(Tank):
 			for px in range(0, pixels, self.speed):
 				positions.append([x-px, y])
 
-		return positions
+		return iter(positions)
