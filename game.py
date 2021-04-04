@@ -15,7 +15,7 @@ class Game:
 		playerTank = Player(None, (100, 300))
 		self.maxEnemies = 4
 		settings.players.append(playerTank)
-		self.createEnemy()
+		settings.gtimer.add(3000, lambda :self.createEnemy())
 		while run:
 			timePassed = clock.tick(60)
 			self.update()
@@ -55,6 +55,8 @@ class Game:
 		for player in settings.players:
 			player.update()
 		for enemy in settings.enemies:
+			if enemy.state == enemy.STATE_DEAD:
+				settings.enemies.remove(enemy)
 			enemy.update()
 			
 	def draw(self):

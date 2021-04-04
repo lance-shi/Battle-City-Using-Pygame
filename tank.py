@@ -21,8 +21,17 @@ class Tank:
 		self.imageLeft = pygame.transform.rotate(self.image, 90)
 		self.imageDown = pygame.transform.rotate(self.image, 180)
 		self.imageRight = pygame.transform.rotate(self.image, 270)
+		self.state = self.STATE_SPAWNING
 
-		self.state = self.STATE_ALIVE
+		self.spawnImages = [
+			settings.sprites.subsurface(32*2, 48*2, 16*2, 16*2),
+			settings.sprites.subsurface(48*2, 48*2, 16*2, 16*2)
+		]
+		self.spawnImage = self.spawnImages[0]
+		self.spawnIndex = 0
+
+		self.timerUuidSpawn = settings.gtimer.add(100, lambda :self.toggleSpawnImage())
+		self.timerUuidSpawnEnd = settings.gtimer.add(1000, lambda :self.endSpawning())
 
 		self.rotate(self.direction, False)
 
@@ -82,6 +91,8 @@ class Tank:
 			settings.screen.blit(self.image, self.rect.topleft)
 		elif self.state == self.STATE_EXPLODING:
 			self.explosion.draw()
+		elif self.state == self.STATE_SPAWNING:
+			settings.screen.blit(self.spawnImage, self.rect.topleft)
 
 	def explode(self):
 		if self.state != self.STATE_DEAD:
@@ -105,5 +116,17 @@ class Tank:
 		else:
 			return True
 
+	def endSpawning(self):
+		self.state = self.STATE_ALIVE
+		settings.gtimer.destroy(self.timerUuidSpawnEnd)
 
+	def toggleSpawnImage(self):
+		if self.state != self.STATE_SPAWNING:
+			settings.gtimer.destroy(self.timerUuidSpawn)
+			return
+
+		self.spawnIndex += 1
+		if self.spawnIndex >= len(self.spawnImages):
+			self.spawnIndex = 0
+		self.spawnImage = self.spawnImages[self.spawnIndex]
 	
