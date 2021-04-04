@@ -51,6 +51,8 @@ class Game:
 
 	def update(self):
 		for bullet in settings.bullets:
+			if bullet.state == bullet.STATE_REMOVED:
+				settings.bullets.remove(bullet)
 			bullet.update()
 		for player in settings.players:
 			player.update()
