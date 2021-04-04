@@ -23,19 +23,20 @@ class Game:
 				if event.type == pygame.QUIT:
 					run = False
 				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_SPACE:
+					if event.key == pygame.K_SPACE and playerTank.state == playerTank.STATE_ALIVE:
 						settings.sounds["fire"].play()
 						playerTank.fire()
 
 			keys_pressed = pygame.key.get_pressed()
-			if keys_pressed[pygame.K_a]:
-				playerTank.move(settings.DIR_LEFT)
-			if keys_pressed[pygame.K_s]:
-				playerTank.move(settings.DIR_DOWN)
-			if keys_pressed[pygame.K_d]:
-				playerTank.move(settings.DIR_RIGHT)
-			if keys_pressed[pygame.K_w]:
-				playerTank.move(settings.DIR_UP)
+			if playerTank.state == playerTank.STATE_ALIVE:
+				if keys_pressed[pygame.K_a]:
+					playerTank.move(settings.DIR_LEFT)
+				if keys_pressed[pygame.K_s]:
+					playerTank.move(settings.DIR_DOWN)
+				if keys_pressed[pygame.K_d]:
+					playerTank.move(settings.DIR_RIGHT)
+				if keys_pressed[pygame.K_w]:
+					playerTank.move(settings.DIR_UP)
 			
 			settings.gtimer.update(timePassed)
 			self.draw()
@@ -51,6 +52,8 @@ class Game:
 	def update(self):
 		for bullet in settings.bullets:
 			bullet.update()
+		for player in settings.players:
+			player.update()
 		for enemy in settings.enemies:
 			enemy.update()
 			

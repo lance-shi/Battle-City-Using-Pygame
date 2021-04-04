@@ -13,7 +13,7 @@ class Enemy(Tank):
 			position = (0, 0)
 		Tank.__init__(self, level, position, type, direction, speed)
 		self.path = self.generatePath(True)
-		self.timer_uuid_fire = settings.gtimer.add(1000, lambda :self.fire())
+		self.timerUuidFire = settings.gtimer.add(1000, lambda :self.fire())
 
 	def move(self):
 		try: 
@@ -59,7 +59,9 @@ class Enemy(Tank):
 		self.rect.topleft = newRect.topleft
 
 	def update(self):
-		self.move()
+		Tank.update(self)
+		if self.state == self.STATE_ALIVE:
+			self.move()
 
 	def generatePath(self, hasDirection=False, fixDirection=False):
 		allDirections = [settings.DIR_UP, settings.DIR_RIGHT, settings.DIR_DOWN, settings.DIR_LEFT]

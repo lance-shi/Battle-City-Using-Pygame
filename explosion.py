@@ -2,7 +2,7 @@ import pygame
 import settings
 
 class Explosion:
-	def __init__(self, position, tantType=True):
+	def __init__(self, position, tankType=True):
 		if tankType:
 			self.position = [position[0]-16, position[1]-16]
 			images = [
@@ -21,7 +21,7 @@ class Explosion:
 
 		self.images = iter(images)
 		self.image = next(self.images)
-		gtimer.add(interval, lambda :self.update(), len(self.images) + 1)
+		settings.gtimer.add(interval, lambda :self.update(), len(images) + 1)
 
 	def draw(self):
 		settings.screen.blit(self.image, self.position)
